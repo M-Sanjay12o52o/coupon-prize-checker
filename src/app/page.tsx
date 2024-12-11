@@ -75,8 +75,15 @@ export default function CheckCoupons() {
         </button>
       </form>
 
+      <h1 className="">Total number of coupons: {results.length}</h1>
+
       <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>
+        {/* Total Number of Coupons */}
+        <h1 className="text-2xl font-semibold text-blue-600 mb-6">
+          Total Number of Coupons: {results.length}
+        </h1>
+
         {results.length > 0 ? (
           <ul className="space-y-3">
             {results.map(({ coupon, prize }, index) => (
