@@ -50,6 +50,9 @@ export default function Home() {
     }
 
     setWinningPrizes(winners);
+
+    console.log("allNumbers: ", allNumbers)
+
   };
 
   return (
