@@ -11,6 +11,8 @@ export default function CheckCoupons() {
     e.preventDefault();
     setResults([]); // Clear previous results
 
+    console.log("results: ", results)
+
     try {
       const response = await fetch("/api/check-coupons", {
         method: "POST",

@@ -30,8 +30,11 @@ const results = {
 };
 
 function checkPrizes(coupon: string): string {
+  console.log("coupon backend: ", coupon);
+
   // Check Mega Bumper Prize (7 digits match)
-  if (results.megaBumperPrize.includes(coupon))
+  const last7 = coupon.slice(-7);
+  if (results.megaBumperPrize.includes(last7))
     return "Mega Bumper Prize (Grand i10 NIOS)";
 
   // Check Super Bumper Prize (Last 5 digits match)
@@ -77,13 +80,26 @@ export async function POST(req: Request) {
   }
 
   const prizes = [];
-  for (
-    let i = parseInt(fromCoupon.slice(2));
-    i <= parseInt(toCoupon.slice(2));
-    i++
-  ) {
-    const coupon = `AK${i.toString().padStart(7, "0")}`;
-    const prize = checkPrizes(coupon);
+
+  // extracting the numeric part of the coupon numbers (ignoring the "AK" prefix)
+  console.log("fromCoupon: ", fromCoupon);
+  console.log("toCoupon: ", toCoupon);
+
+  // const fromNum = parseInt(fromCoupon.slice(2), 12);
+  // const toNum = parseInt(toCoupon.slice(2), 12);
+
+  const fromNum = parseInt(fromCoupon);
+  const toNum = parseInt(toCoupon);
+
+  console.log("fromNum: ", fromNum);
+  console.log("toNum: ", toNum);
+
+  // Iterate over the numeric range using the numeric parts
+  for (let i = fromNum; i <= toNum; i++) {
+    const couponNumber = i.toString();
+    const formattedCoupon = couponNumber.padStart(7, "0");
+    const coupon = `AK${formattedCoupon}`; // Construct the full coupon
+    const prize = checkPrizes(coupon); // Check prize for the coupon
     prizes.push({ coupon, prize });
   }
 
