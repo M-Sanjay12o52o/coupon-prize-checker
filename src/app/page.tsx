@@ -60,50 +60,53 @@ export default function CheckCoupons() {
           <label className="block text-gray-700 font-medium mb-2">
             To Coupon:
           </label>
-          <input
-            type="text"
-            value={toCoupon}
-            onChange={(e) => setToCoupon(e.target.value)}
-            placeholder="e.g., AK1886424"
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-            onFocus={() => {
-              // auto fill functionality for tocoupon input
-              if (!toCoupon) {
-                setToCoupon(fromCoupon);
-              }
-            }}
-          />
-          {/* New functionality: Increment and Decrement buttons */}
-          <div className="ml-2 flex flex-col space-y-1">
-            <button
-              type="button"
-              onClick={() => {
-                // Increment logic: Extract the numeric part, increment it, and reconstruct the coupon
-                const prefix = toCoupon.replace(/\d+/g, ""); // Extract non-numeric part
-                const num = parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) + 1;
-                setToCoupon(`${prefix}${num}`);
+          <div className="flex flex-row">
+            <input
+              type="text"
+              value={toCoupon}
+              onChange={(e) => setToCoupon(e.target.value)}
+              placeholder="e.g., AK1886424"
+              required
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              onFocus={() => {
+                // auto fill functionality for tocoupon input
+                if (!toCoupon) {
+                  setToCoupon(fromCoupon);
+                }
               }}
-              className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
-            >
-              +
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                // Decrement logic: Extract the numeric part, decrement it, and reconstruct the coupon
-                const prefix = toCoupon.replace(/\d+/g, ""); // Extract non-numeric part
-                const num = Math.max(
-                  0,
-                  parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) - 1,
-                );
-                setToCoupon(`${prefix}${num}`);
-              }}
-              className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
-            >
-              -
-            </button>
+            />
+            {/* New functionality: Increment and Decrement buttons */}
+            <div className="ml-2 flex flex-col space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  // Increment logic: Extract the numeric part, increment it, and reconstruct the coupon
+                  const prefix = toCoupon.replace(/\d+/g, ""); // Extract non-numeric part
+                  const num = parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) + 1;
+                  setToCoupon(`${prefix}${num}`);
+                }}
+                className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  // Decrement logic: Extract the numeric part, decrement it, and reconstruct the coupon
+                  const prefix = toCoupon.replace(/\d+/g, ""); // Extract non-numeric part
+                  const num = Math.max(
+                    0,
+                    parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) - 1,
+                  );
+                  setToCoupon(`${prefix}${num}`);
+                }}
+                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
+              >
+                -
+              </button>
+            </div>
           </div>
+
         </div>
         <button
           type="submit"
@@ -111,7 +114,7 @@ export default function CheckCoupons() {
         >
           Check Prizes
         </button>
-      </form>
+      </form >
 
       <h1 className="">Total number of coupons: {results.length}</h1>
 
@@ -131,11 +134,10 @@ export default function CheckCoupons() {
               >
                 <span className="text-gray-700 font-medium">{coupon}</span>
                 <span
-                  className={`${
-                    prize === "No Prize"
-                      ? "text-red-500"
-                      : "text-green-500 font-semibold"
-                  }`}
+                  className={`${prize === "No Prize"
+                    ? "text-red-500"
+                    : "text-green-500 font-semibold"
+                    }`}
                 >
                   {prize}
                 </span>
@@ -148,6 +150,6 @@ export default function CheckCoupons() {
           </p>
         )}
       </div>
-    </div>
+    </div >
   );
 }
