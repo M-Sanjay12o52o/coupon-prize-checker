@@ -34,7 +34,9 @@ export default function CheckCoupons() {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Check Your Coupons</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        Check Your Coupons
+      </h1>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg"
@@ -49,7 +51,7 @@ export default function CheckCoupons() {
             onChange={(e) => setFromCoupon(e.target.value)}
             placeholder="e.g., AK1886406"
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="mb-4">
@@ -62,7 +64,7 @@ export default function CheckCoupons() {
             onChange={(e) => setToCoupon(e.target.value)}
             placeholder="e.g., AK1886424"
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           />
         </div>
         <button
@@ -96,7 +98,9 @@ export default function CheckCoupons() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No results yet. Enter a range to check.</p>
+          <p className="text-gray-500">
+            No results yet. Enter your 7 Digit coupon number.
+          </p>
         )}
       </div>
     </div>
