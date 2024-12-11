@@ -7,7 +7,7 @@ export default function CheckCoupons() {
   const [toCoupon, setToCoupon] = useState("");
   const [results, setResults] = useState([]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setResults([]); // Clear previous results
 
