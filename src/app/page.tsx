@@ -2,21 +2,23 @@
 
 import { useState } from "react";
 
+type WinningCoupons = {
+  coupon: string;
+  prize: string;
+} | null;
+
 export default function CheckCoupons() {
   const [fromCoupon, setFromCoupon] = useState("");
   const [toCoupon, setToCoupon] = useState("");
   const [results, setResults] = useState([]);
-  const [winningCoupon, setWinningCoupon] = useState<WinningCoupon>(null);
+  const [winningCoupons, setWinningCoupons] = useState<WinningCoupons[]>([]);
 
-  type WinningCoupon = {
-    coupon: string;
-    prize: string;
-  } | null;
+  console.log("winningCoupons: ", winningCoupons)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setResults([]); // Clear previous results
-    setWinningCoupon(null);
+    setWinningCoupons([]);
 
     try {
       const response = await fetch("/api/check-coupons", {
@@ -32,8 +34,9 @@ export default function CheckCoupons() {
         setResults(data.prizes);
 
         // Identifying the winning coupons or coupon
-        const winner = data.prizes.find(({ prize }: { prize: string }) => prize !== "No Prize");
-        setWinningCoupon(winner || "");
+        // const winner = data.prizes.find(({ prize }: { prize: string }) => prize !== "No Prize");
+        const winners = data.prizes.filter(({ prize }: { prize: string }) => prize !== "No Prize");
+        setWinningCoupons(winners || "");
       } else {
         alert(data.error || "Something went wrong");
       }
@@ -128,12 +131,30 @@ export default function CheckCoupons() {
       <h1 className="">Total number of coupons: {results.length}</h1>
 
       {/* // Displaying winnign coupon */}
-
       <div>
-        <h1 className="text-2xl font-bold text-green-600 mb-2">Winning Coupon: {
-          winningCoupon ? winningCoupon.coupon : "N/A"}</h1>
-        <h2 className="text-xl font-semibold text-gray-700">Prize: {winningCoupon ? winningCoupon.prize : "N/A"}</h2>
+        <h1 className="text-2xl font-bold text-green-600 mb-4 text-center">
+          Winning Coupons:
+        </h1>
+        {winningCoupons && winningCoupons.length > 0 ? (
+          <div className="space-y-4">
+            {winningCoupons.map((coupon, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg shadow-md ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}
+              >
+                <p className="text-lg font-medium text-gray-800">
+                  <span className="font-semibold text-green-600">{index + 1} - </span>
+                  <span>{coupon?.coupon}: </span>
+                  <span className="text-green-700">{coupon?.prize}</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500">No winning coupons available</p>
+        )}
       </div>
+
 
       <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>
