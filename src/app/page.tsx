@@ -47,8 +47,8 @@ export default function CheckCoupons() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+    <div className="flex flex-col items-center min-h-screen bg-orange-500 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-blue-700">
         Check Your Coupons
       </h1>
       <form
@@ -56,7 +56,7 @@ export default function CheckCoupons() {
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg"
       >
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-blue-700 font-medium mb-2">
             From Coupon:
           </label>
           <input
@@ -69,7 +69,7 @@ export default function CheckCoupons() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-blue-700 font-medium mb-2">
             To Coupon:
           </label>
           <div className="flex flex-row">
@@ -128,11 +128,11 @@ export default function CheckCoupons() {
         </button>
       </form >
 
-      <h1 className="">Total number of coupons: {results.length}</h1>
+      {/* <h1 className="mt-4">Total number of coupons: {results.length}</h1> */}
 
       {/* // Displaying winnign coupon */}
       <div>
-        <h1 className="text-2xl font-bold text-green-600 mb-4 text-center">
+        <h1 className="text-2xl font-bold text-green-600 mb-4 mt-4 text-center">
           Winning Coupons:
         </h1>
         {winningCoupons && winningCoupons.length > 0 ? (
@@ -142,7 +142,7 @@ export default function CheckCoupons() {
                 key={index}
                 className={`p-4 rounded-lg shadow-md ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}
               >
-                <p className="text-lg font-medium text-gray-800">
+                <p className="text-lg font-medium text-blue-800">
                   <span className="font-semibold text-green-600">{index + 1} - </span>
                   <span>{coupon?.coupon}: </span>
                   <span className="text-green-700">{coupon?.prize}</span>
@@ -151,13 +151,13 @@ export default function CheckCoupons() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No winning coupons available</p>
+          <p className="text-blue-500">No winning coupons available</p>
         )}
       </div>
 
 
       <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
-        <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>
+        <h2 className="text-xl font-bold mb-4 text-blue-800">Results:</h2>
         {/* Total Number of Coupons */}
         <h1 className="text-2xl font-semibold text-blue-600 mb-6">
           Total Number of Coupons: {results.length}
@@ -170,7 +170,7 @@ export default function CheckCoupons() {
                 key={index}
                 className="bg-gray-50 border rounded-md p-3 flex justify-between items-center"
               >
-                <span className="text-gray-700 font-medium">{coupon}</span>
+                <span className="text-blue-700 font-medium">{coupon}</span>
                 <span
                   className={`${prize === "No Prize"
                     ? "text-red-500"
@@ -183,7 +183,7 @@ export default function CheckCoupons() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">
+          <p className="text-blue-500">
             No results yet. Enter your 7 Digit coupon number.
           </p>
         )}
