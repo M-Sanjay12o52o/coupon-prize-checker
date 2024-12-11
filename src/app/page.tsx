@@ -1,110 +1,104 @@
 "use client";
 
 import { useState } from "react";
-import { prizeWinners } from "@/helper/winners";
-import { allNumbers } from "@/helper/winners";
 
-type PrizeCategory = keyof typeof prizeWinners; // Union type of all prize categories
+export default function CheckCoupons() {
+  const [fromCoupon, setFromCoupon] = useState("");
+  const [toCoupon, setToCoupon] = useState("");
+  const [results, setResults] = useState([]);
 
-interface Winner {
-  number: string; // Coupon number
-  prize: PrizeCategory; // Corresponding prize category
-}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setResults([]); // Clear previous results
 
-export default function Home() {
-  const [startNumber, setStartNumber] = useState<string>("");
-  const [endNumber, setEndNumber] = useState<string>("");
-  const [couponNumbers, setCouponNumbers] = useState<string[]>([]);
-  const [winningPrizes, setWinningPrizes] = useState<Winner[]>([]);
+    try {
+      const response = await fetch("/api/check-coupons", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fromCoupon, toCoupon }),
+      });
 
-  console.log("coupon numbers: ", couponNumbers);
-
-  const checkWinners = () => {
-    console.log("checking winners");
-
-    // Convert start and end numbers to integers
-    const startNumberInt = parseInt(startNumber, 10);
-    const endNumberInt = parseInt(endNumber, 10);
-
-    // Validate input
-    if (isNaN(startNumberInt) || isNaN(endNumberInt) || startNumberInt > endNumberInt) {
-      alert("Please enter valid start and end numbers.");
-      return;
-    }
-
-    // Generate coupon numbers
-    const newCouponNumbers: string[] = [];
-    for (let i = startNumberInt; i <= endNumberInt; i++) {
-      newCouponNumbers.push(i.toString());
-    }
-    setCouponNumbers(newCouponNumbers);
-
-    // Check for winners
-    const winners: Winner[] = [];
-    for (const number of newCouponNumbers) {
-      for (const prize in prizeWinners) {
-        if (prizeWinners[prize as PrizeCategory].includes(number)) {
-          winners.push({ number, prize: prize as PrizeCategory });
-        }
+      const data = await response.json();
+      if (response.ok) {
+        setResults(data.prizes);
+      } else {
+        alert(data.error || "Something went wrong");
       }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to fetch results. Please try again.");
     }
-
-    setWinningPrizes(winners);
-
-    console.log("allNumbers: ", allNumbers)
-
   };
 
   return (
-    <div className="flex flex-col items-center p-6">
-      <h1 className="text-2xl font-bold mb-4">Enter Your 7-Digit Coupon Numbers</h1>
-      <div className="flex flex-col md:flex-row gap-4">
-        <input
-          type="number"
-          value={startNumber}
-          onChange={(e) => setStartNumber(e.target.value)}
-          placeholder="Start Number"
-          maxLength={7}
-          className="border border-gray-300 text-black rounded-md p-2 w-full md:w-64"
-        />
-        <input
-          type="number"
-          value={endNumber}
-          onChange={(e) => setEndNumber(e.target.value)}
-          placeholder="End Number"
-          maxLength={7}
-          className="border border-gray-300 text-black rounded-md p-2 w-full md:w-64"
-        />
-      </div>
-      <button
-        onClick={checkWinners}
-        className="bg-blue-500 mt-4 text-white rounded-md p-2 w-full md:w-64"
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Check Your Coupons</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg"
       >
-        Check Winners
-      </button>
-      <div>
-        <h3>Your Coupon Numbers</h3>
-        <ol>
-          {couponNumbers.map((number) => (
-            <li key={number}>{number}</li>
-          ))}
-        </ol>
-      </div>
-      <div>
-        <h3>Winning Coupons</h3>
-        {winningPrizes.length > 0 ? (
-          <ul>
-            {winningPrizes.map(({ number, prize }) => (
-              <li key={number}>
-                Coupon {number} won: <strong>{prize}</strong>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">
+            From Coupon:
+          </label>
+          <input
+            type="text"
+            value={fromCoupon}
+            onChange={(e) => setFromCoupon(e.target.value)}
+            placeholder="e.g., AK1886406"
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">
+            To Coupon:
+          </label>
+          <input
+            type="text"
+            value={toCoupon}
+            onChange={(e) => setToCoupon(e.target.value)}
+            placeholder="e.g., AK1886424"
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Check Prizes
+        </button>
+      </form>
+
+      <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>
+        {results.length > 0 ? (
+          <ul className="space-y-3">
+            {results.map(({ coupon, prize }, index) => (
+              <li
+                key={index}
+                className="bg-gray-50 border rounded-md p-3 flex justify-between items-center"
+              >
+                <span className="text-gray-700 font-medium">{coupon}</span>
+                <span
+                  className={`${
+                    prize === "No Prize"
+                      ? "text-red-500"
+                      : "text-green-500 font-semibold"
+                  }`}
+                >
+                  {prize}
+                </span>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No winning coupons in the range.</p>
+          <p className="text-gray-500">No results yet. Enter a range to check.</p>
         )}
       </div>
     </div>
   );
 }
-
