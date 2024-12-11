@@ -6,12 +6,17 @@ export default function CheckCoupons() {
   const [fromCoupon, setFromCoupon] = useState("");
   const [toCoupon, setToCoupon] = useState("");
   const [results, setResults] = useState([]);
+  const [winningCoupon, setWinningCoupon] = useState<WinningCoupon>(null);
+
+  type WinningCoupon = {
+    coupon: string;
+    prize: string;
+  } | null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setResults([]); // Clear previous results
-
-    console.log("results: ", results);
+    setWinningCoupon(null);
 
     try {
       const response = await fetch("/api/check-coupons", {
@@ -25,6 +30,10 @@ export default function CheckCoupons() {
       const data = await response.json();
       if (response.ok) {
         setResults(data.prizes);
+
+        // Identifying the winning coupons or coupon
+        const winner = data.prizes.find(({ prize }: { prize: string }) => prize !== "No Prize");
+        setWinningCoupon(winner || "");
       } else {
         alert(data.error || "Something went wrong");
       }
@@ -53,7 +62,7 @@ export default function CheckCoupons() {
             onChange={(e) => setFromCoupon(e.target.value)}
             placeholder="e.g., AK1886406"
             required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
           />
         </div>
         <div className="mb-4">
@@ -67,7 +76,7 @@ export default function CheckCoupons() {
               onChange={(e) => setToCoupon(e.target.value)}
               placeholder="e.g., AK1886424"
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
               onFocus={() => {
                 // auto fill functionality for tocoupon input
                 if (!toCoupon) {
@@ -85,7 +94,7 @@ export default function CheckCoupons() {
                   const num = parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) + 1;
                   setToCoupon(`${prefix}${num}`);
                 }}
-                className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
+                className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 h-8 mt-2"
               >
                 +
               </button>
@@ -100,7 +109,7 @@ export default function CheckCoupons() {
                   );
                   setToCoupon(`${prefix}${num}`);
                 }}
-                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600"
+                className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 h-8"
               >
                 -
               </button>
@@ -117,6 +126,14 @@ export default function CheckCoupons() {
       </form >
 
       <h1 className="">Total number of coupons: {results.length}</h1>
+
+      {/* // Displaying winnign coupon */}
+
+      <div>
+        <h1 className="text-2xl font-bold text-green-600 mb-2">Winning Coupon: {
+          winningCoupon ? winningCoupon.coupon : "N/A"}</h1>
+        <h2 className="text-xl font-semibold text-gray-700">Prize: {winningCoupon ? winningCoupon.prize : "N/A"}</h2>
+      </div>
 
       <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>

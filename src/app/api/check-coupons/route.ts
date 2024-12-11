@@ -30,7 +30,6 @@ const results = {
 };
 
 function checkPrizes(coupon: string): string {
-  console.log("coupon backend: ", coupon);
 
   // Check Mega Bumper Prize (7 digits match)
   const last7 = coupon.slice(-7);
@@ -81,18 +80,8 @@ export async function POST(req: Request) {
 
   const prizes = [];
 
-  // extracting the numeric part of the coupon numbers (ignoring the "AK" prefix)
-  console.log("fromCoupon: ", fromCoupon);
-  console.log("toCoupon: ", toCoupon);
-
-  // const fromNum = parseInt(fromCoupon.slice(2), 12);
-  // const toNum = parseInt(toCoupon.slice(2), 12);
-
   const fromNum = parseInt(fromCoupon);
   const toNum = parseInt(toCoupon);
-
-  console.log("fromNum: ", fromNum);
-  console.log("toNum: ", toNum);
 
   // Iterate over the numeric range using the numeric parts
   for (let i = fromNum; i <= toNum; i++) {
