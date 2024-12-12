@@ -35,46 +35,46 @@ function checkPrizes(coupon: string): string {
   // Check Mega Bumper Prize (7 digits match)
   const last7 = coupon.slice(-7);
   if (results.megaBumperPrize.includes(last7)) {
-    prizes.push("Mega Bumper Prize<br />(Grand i10 NIOS)");
+    prizes.push("Mega Bumper Prize (Grand i10 NIOS)");
   }
   // return "Mega Bumper Prize (Grand i10 NIOS)";
 
   // Check Super Bumper Prize (Last 5 digits match)
   const last5 = coupon.slice(-5);
   if (results.superBumperPrize.includes(last5)) {
-    prizes.push("Super Bumper Prize<br />(₹50,000 Shopping)");
+    prizes.push("Super Bumper Prize (₹50,000 Shopping)");
   }
   // return "Super Bumper Prize (₹50,000 Shopping)";
 
   // Check 1st Prize (Last 4 digits match)
   const last4 = coupon.slice(-4);
   if (results.firstPrize.includes(last4)) {
-    prizes.push("1st Prize<br />(30,000 Pai Loyalty Points)")
+    prizes.push("1st Prize (30,000 Pai Loyalty Points)")
   }
   // return "1st Prize (30,000 Pai Loyalty Points)";
 
   // Check 2nd Prize (Last 4 digits match)
   if (results.secondPrize.includes(last4)) {
-    prizes.push("2nd Prize<br />(10,000 Pai Loyalty Points)")
+    prizes.push("2nd Prize (10,000 Pai Loyalty Points)")
   }
   // return "2nd Prize (10,000 Pai Loyalty Points)";
 
   // Check 3rd Prize (Last 4 digits match)
   if (results.thirdPrize.includes(last4)) {
-    prizes.push("3rd Prize<br />(5,000 Pai Loyalty Points)")
+    prizes.push("3rd Prize (5,000 Pai Loyalty Points)")
   }
   // return "3rd Prize (5,000 Pai Loyalty Points)";
 
   // Check 4th Prize (Last 4 digits match)
   if (results.fourthPrize.includes(last4)) {
-    prizes.push("4th Prize<br />(4,000 Pai Loyalty Points)")
+    prizes.push("4th Prize (4,000 Pai Loyalty Points)")
   }
   // return "4th Prize (4,000 Pai Loyalty Points)";
 
   // Check 5th Prize (Last 2 digits match)
   const last2 = coupon.slice(-2);
   if (results.fifthPrize.includes(last2)) {
-    prizes.push("5th Prize<br />(2,000 Pai Loyalty Points)")
+    prizes.push("5th Prize (2,000 Pai Loyalty Points)")
   }
   // return "5th Prize (2,000 Pai Loyalty Points)";
 
