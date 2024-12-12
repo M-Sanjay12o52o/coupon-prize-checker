@@ -81,14 +81,17 @@ export default function CheckCoupons() {
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg"
       >
         <div className="mb-4">
-          <div className="flex justify-end mb-4">
-            <button className="bg-gray-300 text-black w-8 h-8" onClick={clear}>
+          <div className="flex mb-4 justify-between items-center">
+            <label className="block text-gray-700 font-medium mb-0">
+              From Coupon:
+            </label>
+            <button
+              className="bg-gray-300 text-black w-8 h-8 justify-end"
+              onClick={clear}
+            >
               x
             </button>
           </div>
-          <label className="block text-gray-700 font-medium mb-2">
-            From Coupon:
-          </label>
           <input
             type="text"
             value={fromCoupon}
