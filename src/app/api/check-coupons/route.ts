@@ -35,7 +35,7 @@ function checkPrizes(coupon: string): string {
   // Check Mega Bumper Prize (7 digits match)
   const last7 = coupon.slice(-7);
   if (results.megaBumperPrize.includes(last7)) {
-    prizes.push("Mega Bumper Prize (Grand i10 NIOS)");
+    prizes.push("Mega Bumper Prize \n(Grand i10 NIOS)");
   }
   // return "Mega Bumper Prize (Grand i10 NIOS)";
 
@@ -115,3 +115,5 @@ export async function POST(req: Request) {
 
   return new Response(JSON.stringify({ prizes }), { status: 200 });
 }
+
+
