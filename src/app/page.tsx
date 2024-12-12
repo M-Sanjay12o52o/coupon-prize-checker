@@ -63,8 +63,9 @@ export default function CheckCoupons() {
             type="text"
             value={fromCoupon}
             onChange={(e) => setFromCoupon(e.target.value)}
-            placeholder="e.g., AK1886406"
+            placeholder="e.g., 1886406"
             required
+            maxLength={7}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
           />
         </div>
@@ -77,8 +78,9 @@ export default function CheckCoupons() {
               type="text"
               value={toCoupon}
               onChange={(e) => setToCoupon(e.target.value)}
-              placeholder="e.g., AK1886424"
+              placeholder="e.g., 1886424"
               required
+              maxLength={7}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
               onFocus={() => {
                 // auto fill functionality for tocoupon input
@@ -174,8 +176,8 @@ export default function CheckCoupons() {
                 <span
                   className={`${prize === "No Prize"
                     ? "text-red-500"
-                    : "text-green-500 font-semibold"
-                    }h-auto block`}
+                    : "text-green-500 font-semibold h-auto block"
+                    }`}
                 >
                   {prize}
                 </span>
