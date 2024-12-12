@@ -132,7 +132,7 @@ export default function CheckCoupons() {
 
       {/* // Displaying winnign coupon */}
       <div>
-        <h1 className="text-2xl font-bold text-green-600 mb-4 text-center">
+        <h1 className="text-2xl font-bold text-purple-600 mb-4 text-center">
           Winning Coupons:
         </h1>
         {winningCoupons && winningCoupons.length > 0 ? (
