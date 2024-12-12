@@ -13,7 +13,7 @@ export default function CheckCoupons() {
   const [results, setResults] = useState([]);
   const [winningCoupons, setWinningCoupons] = useState<WinningCoupons[]>([]);
 
-  console.log("winningCoupons: ", winningCoupons)
+  console.log("winningCoupons: ", winningCoupons);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +35,9 @@ export default function CheckCoupons() {
 
         // Identifying the winning coupons or coupon
         // const winner = data.prizes.find(({ prize }: { prize: string }) => prize !== "No Prize");
-        const winners = data.prizes.filter(({ prize }: { prize: string }) => prize !== "No Prize");
+        const winners = data.prizes.filter(
+          ({ prize }: { prize: string }) => prize !== "No Prize",
+        );
         setWinningCoupons(winners || "");
       } else {
         alert(data.error || "Something went wrong");
@@ -44,6 +46,24 @@ export default function CheckCoupons() {
       console.error("Error:", error);
       alert("Failed to fetch results. Please try again.");
     }
+  };
+
+  // Utility function to split prize text at the first "("
+  const formatPrizeText = (prize: string) => {
+    const [beforeBracket, afterBracket] = prize.split(/\(/);
+    return (
+      <>
+        <div className="text-center">
+          <span>{beforeBracket}</span>
+          {afterBracket && (
+            <>
+              <br />
+              <span>({afterBracket}</span>
+            </>
+          )}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -96,7 +116,8 @@ export default function CheckCoupons() {
                 onClick={() => {
                   // Increment logic: Extract the numeric part, increment it, and reconstruct the coupon
                   const prefix = toCoupon.replace(/\d+/g, ""); // Extract non-numeric part
-                  const num = parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) + 1;
+                  const num =
+                    parseInt(toCoupon.match(/\d+/)?.[0] || "0", 10) + 1;
                   setToCoupon(`${prefix}${num}`);
                 }}
                 className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 h-8 mt-2"
@@ -120,7 +141,6 @@ export default function CheckCoupons() {
               </button>
             </div>
           </div>
-
         </div>
         <button
           type="submit"
@@ -128,7 +148,7 @@ export default function CheckCoupons() {
         >
           Check Prizes
         </button>
-      </form >
+      </form>
 
       <h1 className="">Total number of coupons: {results.length}</h1>
 
@@ -142,10 +162,12 @@ export default function CheckCoupons() {
             {winningCoupons.map((coupon, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-lg shadow-md ${index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200'}`}
+                className={`p-4 rounded-lg shadow-md ${index % 2 === 0 ? "bg-gray-100" : "bg-gray-200"}`}
               >
                 <p className="text-lg font-medium text-gray-800">
-                  <span className="font-semibold text-green-600">{index + 1} - </span>
+                  <span className="font-semibold text-green-600">
+                    {index + 1} -{" "}
+                  </span>
                   <span>{coupon?.coupon}: </span>
                   <span className="text-green-700">{coupon?.prize}</span>
                 </p>
@@ -156,7 +178,6 @@ export default function CheckCoupons() {
           <p className="text-gray-500">No winning coupons available</p>
         )}
       </div>
-
 
       <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-2xl">
         <h2 className="text-xl font-bold mb-4 text-gray-800">Results:</h2>
@@ -174,12 +195,13 @@ export default function CheckCoupons() {
               >
                 <span className="text-gray-700 font-medium">{coupon}</span>
                 <span
-                  className={`${prize === "No Prize"
-                    ? "text-red-500"
-                    : "text-green-500 font-semibold h-auto block"
-                    }`}
+                  className={`${
+                    prize === "No Prize"
+                      ? "text-red-500"
+                      : "text-green-500 font-semibold h-auto block"
+                  }`}
                 >
-                  {prize}
+                  {prize && formatPrizeText(prize)}
                 </span>
               </li>
             ))}
@@ -190,6 +212,6 @@ export default function CheckCoupons() {
           </p>
         )}
       </div>
-    </div >
+    </div>
   );
 }
