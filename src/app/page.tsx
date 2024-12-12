@@ -98,6 +98,7 @@ export default function CheckCoupons() {
             onChange={(e) => setFromCoupon(e.target.value)}
             placeholder="e.g., 1886406"
             required
+            minLength={7}
             maxLength={7}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
           />
@@ -113,6 +114,7 @@ export default function CheckCoupons() {
               onChange={(e) => setToCoupon(e.target.value)}
               placeholder="e.g., 1886424"
               required
+              minLength={7}
               maxLength={7}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black h-20"
               onFocus={() => {
