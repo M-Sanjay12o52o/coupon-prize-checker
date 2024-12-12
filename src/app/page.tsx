@@ -66,6 +66,11 @@ export default function CheckCoupons() {
     );
   };
 
+  const clear = () => {
+    setFromCoupon("");
+    setToCoupon("");
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
@@ -76,6 +81,11 @@ export default function CheckCoupons() {
         className="bg-white shadow-md rounded-lg p-6 w-full max-w-lg"
       >
         <div className="mb-4">
+          <div className="flex justify-end mb-4">
+            <button className="bg-gray-300 text-black w-8 h-8" onClick={clear}>
+              x
+            </button>
+          </div>
           <label className="block text-gray-700 font-medium mb-2">
             From Coupon:
           </label>
