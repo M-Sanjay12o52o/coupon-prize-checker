@@ -82,7 +82,7 @@ export default function CheckCoupons() {
       >
         <div className="mb-4">
           <div className="flex mb-4 justify-between items-center">
-            <label className="block text-gray-700 font-medium mb-0">
+            <label className="block text-gray-700 font-medium -mb-6">
               From Coupon:
             </label>
             <button
