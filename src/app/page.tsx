@@ -175,7 +175,7 @@ export default function CheckCoupons() {
                   className={`${prize === "No Prize"
                     ? "text-red-500"
                     : "text-green-500 font-semibold"
-                    }`}
+                    }h-auto block`}
                 >
                   {prize}
                 </span>
