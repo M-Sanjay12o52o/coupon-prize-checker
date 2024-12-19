@@ -109,7 +109,6 @@ const AdminPrizePage = () => {
 
                     <button
                         type="submit"
-                        onClick={handleSubmit as any}
                         className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
                     >
                         <Save className="h-5 w-5" />
