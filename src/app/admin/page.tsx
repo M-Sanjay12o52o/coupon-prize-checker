@@ -4,28 +4,51 @@ import React, { useState } from 'react';
 import { Trash2, Plus, Save } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 
-const AdminPrizePage = () => {
-    const [prizes, setPrizes] = useState([{ title: '', prize: '' }]);
+type Prize = {
+    title: string;
+    prize: string;
+};
 
-    const handleInputChange = (index: number, field: string, value: string) => {
+const AdminPrizePage: React.FC = () => {
+    const [prizes, setPrizes] = useState<Prize[]>([{ title: '', prize: '' }]);
+
+    const handleInputChange = (index: number, field: keyof Prize, value: string): void => {
         const newPrizes = prizes.map((prize, i) =>
             i === index ? { ...prize, [field]: value } : prize
         );
         setPrizes(newPrizes);
     };
 
-    const handleAddPrize = () => {
+    const handleAddPrize = (): void => {
         setPrizes([...prizes, { title: '', prize: '' }]);
     };
 
-    const handleRemovePrize = (index: number) => {
+    const handleRemovePrize = (index: number): void => {
         setPrizes(prizes.filter((_, i) => i !== index));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        // Handle form submission
-        console.log('Submitting prizes:', prizes);
+
+        try {
+            const response = await fetch('/api/admin/post-prizes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(prizes),
+            });
+
+            if (response.ok) {
+                alert('Prizes posted successfully!');
+                setPrizes([{ title: '', prize: '' }]);
+            } else {
+                alert('Failed to post prizes.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error posting prizes.');
+        }
     };
 
     return (
@@ -41,7 +64,7 @@ const AdminPrizePage = () => {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {prizes.map((prize, index) => (
                             <div
-                                key={index}
+                                key={`${prize.title}-${index}`}
                                 className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm space-y-4"
                             >
                                 <div className="flex justify-between items-center">
@@ -94,6 +117,13 @@ const AdminPrizePage = () => {
                                 </div>
                             </div>
                         ))}
+                        <button
+                            type="submit" // Fixed here
+                            className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                        >
+                            <Save className="h-5 w-5" />
+                            Save All Prizes
+                        </button>
                     </form>
                 </CardContent>
 
@@ -105,15 +135,6 @@ const AdminPrizePage = () => {
                     >
                         <Plus className="h-5 w-5" />
                         Add Another Prize
-                    </button>
-
-                    <button
-                        type="submit"
-                        onClick={handleSubmit as any}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                    >
-                        <Save className="h-5 w-5" />
-                        Save All Prizes
                     </button>
                 </CardFooter>
             </Card>
